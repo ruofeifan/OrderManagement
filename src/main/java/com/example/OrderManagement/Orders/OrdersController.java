@@ -1,5 +1,6 @@
 package com.example.OrderManagement.Orders;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,5 +24,18 @@ public class OrdersController {
     @PostMapping
     public void placeNewOrder(@RequestBody Orders order){
         ordersService.addNewOrder(order);
+    }
+
+    @DeleteMapping(path = "{orderId}")
+    public void deleteOrder(@PathVariable("orderId") Long orderId){
+        ordersService.deleteOrder(orderId);
+    }
+
+    @PutMapping(path = "{orderId}")
+    public void updateOrder(
+            @PathVariable("orderId") Long orderId,
+            @RequestParam(required = false) Long customerId,
+            @RequestParam(required = false) String email){
+        ordersService.updateOrder(orderId,customerId,email);
     }
 }
