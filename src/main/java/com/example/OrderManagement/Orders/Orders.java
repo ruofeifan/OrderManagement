@@ -2,7 +2,9 @@ package com.example.OrderManagement.Orders;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Entity //for Hibernate
 @Table //for database
@@ -23,6 +25,8 @@ public class Orders {
     private String email;
     private LocalDateTime orderDate;
     private String status;
+    @Transient
+    private Integer orderDays;
 
     public Orders() {
     }
@@ -82,14 +86,23 @@ public class Orders {
         this.status = status;
     }
 
+    public Integer getOrderDays() {
+        return Period.between(orderDate.toLocalDate(), LocalDate.now()).getDays();
+    }
+
+    public void setOrderDays(Integer orderDays) {
+        this.orderDays = orderDays;
+    }
+
     @Override
     public String toString() {
-        return "Order{" +
+        return "Orders{" +
                 "orderId=" + orderId +
                 ", customerId=" + customerId +
                 ", email='" + email + '\'' +
                 ", orderDate=" + orderDate +
                 ", status='" + status + '\'' +
+                ", orderDays=" + orderDays +
                 '}';
     }
 }
